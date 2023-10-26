@@ -1,12 +1,12 @@
 import torch
 import torch_geometric.graphgym.register as register
+from graphgps.layer.gps_layer import GPSLayer
 from torch_geometric.graphgym.config import cfg
 from torch_geometric.graphgym.models.gnn import GNNPreMP
 from torch_geometric.graphgym.models.layer import (new_layer_config,
                                                    BatchNorm1dNode)
 from torch_geometric.graphgym.register import register_network
 
-from graphgps.layer.gps_layer import GPSLayer
 
 class FeatureEncoder(torch.nn.Module):
     """
@@ -15,6 +15,7 @@ class FeatureEncoder(torch.nn.Module):
     Args:
         dim_in (int): Input feature dimension
     """
+
     def __init__(self, dim_in):
         super(FeatureEncoder, self).__init__()
         self.dim_in = dim_in

@@ -2,9 +2,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch_scatter import scatter
-
 from graphgps.utils import negate_edge_index
+from torch_scatter import scatter
 
 
 class MultiHeadAttentionLayer(nn.Module):

@@ -1,11 +1,10 @@
 import torch
 import torch_geometric.graphgym.register as register
+from graphgps.layer.san2_layer import SAN2Layer
+from graphgps.layer.san_layer import SANLayer
 from torch_geometric.graphgym.config import cfg
 from torch_geometric.graphgym.models.gnn import FeatureEncoder, GNNPreMP
 from torch_geometric.graphgym.register import register_network
-
-from graphgps.layer.san_layer import SANLayer
-from graphgps.layer.san2_layer import SAN2Layer
 
 
 class SANTransformer(torch.nn.Module):

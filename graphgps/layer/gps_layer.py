@@ -3,14 +3,13 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch_geometric.nn as pygnn
+from graphgps.layer.bigbird_layer import SingleBigBirdLayer
+from graphgps.layer.gatedgcn_layer import GatedGCNLayer
+from graphgps.layer.gine_conv_layer import GINEConvESLapPE
 from performer_pytorch import SelfAttention
 from torch_geometric.data import Batch
 from torch_geometric.nn import Linear as Linear_pyg
 from torch_geometric.utils import to_dense_batch
-
-from graphgps.layer.gatedgcn_layer import GatedGCNLayer
-from graphgps.layer.gine_conv_layer import GINEConvESLapPE
-from graphgps.layer.bigbird_layer import SingleBigBirdLayer
 
 
 class GPSLayer(nn.Module):
@@ -60,7 +59,7 @@ class GPSLayer(nn.Module):
                                              aggregators=aggregators,
                                              scalers=scalers,
                                              deg=deg,
-                                             edge_dim=16, # dim_h,
+                                             edge_dim=16,  # dim_h,
                                              towers=1,
                                              pre_layers=1,
                                              post_layers=1,

@@ -15,6 +15,7 @@ class GINEConvESLapPE(pyg_nn.conv.MessagePassing):
     according to EquivStable LapPE:
         ICLR 2022 https://openreview.net/pdf?id=e95i1IHcWj
     """
+
     def __init__(self, nn, eps=0., train_eps=False, edge_dim=None, **kwargs):
         kwargs.setdefault('aggr', 'add')
         super().__init__(**kwargs)
@@ -90,6 +91,7 @@ class GINEConvESLapPE(pyg_nn.conv.MessagePassing):
 class GINEConvLayer(nn.Module):
     """Graph Isomorphism Network with Edge features (GINE) layer.
     """
+
     def __init__(self, dim_in, dim_out, dropout, residual):
         super().__init__()
         self.dim_in = dim_in
@@ -119,6 +121,7 @@ class GINEConvLayer(nn.Module):
 class GINEConvGraphGymLayer(nn.Module):
     """Graph Isomorphism Network with Edge features (GINE) layer.
     """
+
     def __init__(self, layer_config: LayerConfig, **kwargs):
         super().__init__()
         gin_nn = nn.Sequential(
@@ -129,5 +132,6 @@ class GINEConvGraphGymLayer(nn.Module):
     def forward(self, batch):
         batch.x = self.model(batch.x, batch.edge_index, batch.edge_attr)
         return batch
+
 
 register_layer('gineconv', GINEConvGraphGymLayer)

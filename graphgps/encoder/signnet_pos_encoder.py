@@ -124,7 +124,7 @@ class GINDeepSigns(nn.Module):
 
     def forward(self, x, edge_index, batch_index):
         N = x.shape[0]  # Total number of nodes in the batch.
-        x = x.transpose(0, 1) # N x K x In -> K x N x In
+        x = x.transpose(0, 1)  # N x K x In -> K x N x In
         x = self.enc(x, edge_index) + self.enc(-x, edge_index)
         x = x.transpose(0, 1).reshape(N, -1)  # K x N x Out -> N x (K * Out)
         x = self.rho(x)  # N x dim_pe (Note: in the original codebase dim_pe is always K)

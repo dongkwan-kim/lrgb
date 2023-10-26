@@ -87,6 +87,7 @@ def scheduler_with_warmup(optimizer, scheduler_config: SchedulerConfig):
     if scheduler is not None:
         return scheduler
 
+
 register_scheduler('scheduler_with_warmup', scheduler_with_warmup)
 
 

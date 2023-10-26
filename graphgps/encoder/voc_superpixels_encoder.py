@@ -13,6 +13,8 @@ Shape of y : [num_nodes]
 """
 
 VOC_node_input_dim = 14
+
+
 # VOC_edge_input_dim = 1 or 2; defined in class VOCEdgeEncoder
 
 class VOCNodeEncoder(torch.nn.Module):
@@ -26,6 +28,7 @@ class VOCNodeEncoder(torch.nn.Module):
         batch.x = self.encoder(batch.x)
 
         return batch
+
 
 register_node_encoder('VOCNode', VOCNodeEncoder)
 

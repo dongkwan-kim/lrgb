@@ -1,10 +1,9 @@
 import torch
 import torch_geometric.graphgym.register as register
+from graphgps.layer.performer_layer import Performer as BackbonePerformer
 from torch_geometric.graphgym.config import cfg
 from torch_geometric.graphgym.models.gnn import FeatureEncoder, GNNPreMP
 from torch_geometric.graphgym.register import register_network
-
-from graphgps.layer.performer_layer import Performer as BackbonePerformer
 
 
 class Performer(torch.nn.Module):

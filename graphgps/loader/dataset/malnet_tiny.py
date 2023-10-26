@@ -1,8 +1,7 @@
-from typing import Optional, Callable, List
-
-import os
 import glob
+import os
 import os.path as osp
+from typing import Optional, Callable, List
 
 import torch
 from torch_geometric.data import (InMemoryDataset, Data, download_url,
@@ -17,6 +16,7 @@ TODO: Delete and use PyG's version once it is part of a released version.
 At the time of writing this class is in the main PyG github branch but is not
  included in the current latest released version 2.0.2.
 """
+
 
 class MalNetTiny(InMemoryDataset):
     r"""The MalNet Tiny dataset from the

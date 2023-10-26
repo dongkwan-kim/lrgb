@@ -1,8 +1,10 @@
 import logging
 import time
 
+import graphgps.metrics_ogb as metrics_ogb
 import numpy as np
 import torch
+from graphgps.metric_wrapper import MetricWrapper
 from scipy.stats import stats
 from sklearn.metrics import accuracy_score, precision_score, recall_score, \
     f1_score, roc_auc_score, mean_absolute_error, mean_squared_error
@@ -12,9 +14,6 @@ from torch_geometric.graphgym.config import cfg
 from torch_geometric.graphgym.logger import infer_task, Logger
 from torch_geometric.graphgym.utils.io import dict_to_json, dict_to_tb
 from torchmetrics.functional import auroc
-
-import graphgps.metrics_ogb as metrics_ogb
-from graphgps.metric_wrapper import MetricWrapper
 
 
 class CustomLogger(Logger):

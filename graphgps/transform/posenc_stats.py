@@ -57,14 +57,14 @@ def compute_posenc_stats(data, pe_types, is_undirected, cfg):
                            num_nodes=N)
         )
         evals, evects = np.linalg.eigh(L.toarray())
-        
+
         if 'LapPE' in pe_types:
-            max_freqs=cfg.posenc_LapPE.eigen.max_freqs
-            eigvec_norm=cfg.posenc_LapPE.eigen.eigvec_norm
-        elif 'EquivStableLapPE' in pe_types:  
-            max_freqs=cfg.posenc_EquivStableLapPE.eigen.max_freqs
-            eigvec_norm=cfg.posenc_EquivStableLapPE.eigen.eigvec_norm
-        
+            max_freqs = cfg.posenc_LapPE.eigen.max_freqs
+            eigvec_norm = cfg.posenc_LapPE.eigen.eigvec_norm
+        elif 'EquivStableLapPE' in pe_types:
+            max_freqs = cfg.posenc_EquivStableLapPE.eigen.max_freqs
+            eigvec_norm = cfg.posenc_EquivStableLapPE.eigen.eigvec_norm
+
         data.EigVals, data.EigVecs = get_lap_decomp_stats(
             evals=evals, evects=evects,
             max_freqs=max_freqs,
@@ -392,7 +392,6 @@ def eigvec_normalizer(EigVecs, EigVals, normalization="L2", eps=1e-12):
     EigVecs = EigVecs / denom
 
     return EigVecs
-
 
 # def add_edge_laplace_feats(graph):
 #     """Extend edge features by Laplace-derived features.

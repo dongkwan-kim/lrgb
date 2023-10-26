@@ -3,10 +3,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch_geometric.nn as pyg_nn
 from torch_geometric.graphgym.models.layer import LayerConfig
-from torch_scatter import scatter
-
-from torch_geometric.graphgym.config import cfg
 from torch_geometric.graphgym.register import register_layer
+from torch_scatter import scatter
 
 
 class GatedGCNLayer(pyg_nn.conv.MessagePassing):
@@ -15,6 +13,7 @@ class GatedGCNLayer(pyg_nn.conv.MessagePassing):
         Residual Gated Graph ConvNets
         https://arxiv.org/pdf/1711.07553.pdf
     """
+
     def __init__(self, in_dim, out_dim, dropout, residual,
                  equivstable_pe=False, **kwargs):
         super().__init__(**kwargs)
@@ -138,12 +137,14 @@ class GatedGCNGraphGymLayer(nn.Module):
     Residual Gated Graph ConvNets
     https://arxiv.org/pdf/1711.07553.pdf
     """
+
     def __init__(self, layer_config: LayerConfig, **kwargs):
         super().__init__()
         self.model = GatedGCNLayer(in_dim=layer_config.dim_in,
                                    out_dim=layer_config.dim_out,
                                    dropout=0.,  # Dropout is handled by GraphGym's `GeneralLayer` wrapper
-                                   residual=False,  # Residual connections are handled by GraphGym's `GNNStackStage` wrapper
+                                   residual=False,
+                                   # Residual connections are handled by GraphGym's `GNNStackStage` wrapper
                                    **kwargs)
 
     def forward(self, batch):

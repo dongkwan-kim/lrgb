@@ -1,12 +1,12 @@
 import os
 import os.path as osp
-import shutil
 import pickle
+import shutil
 
 import torch
-from tqdm import tqdm
 from torch_geometric.data import (InMemoryDataset, Data, download_url,
                                   extract_zip)
+from tqdm import tqdm
 
 
 class VOCSuperpixels(InMemoryDataset):
@@ -69,17 +69,17 @@ class VOCSuperpixels(InMemoryDataset):
             value, indicating whether the data object should be included in the
             final dataset. (default: :obj:`None`)
     """
-    
+
     url = {
         10: {
-        'edge_wt_only_coord': 'https://www.dropbox.com/s/rk6pfnuh7tq3t37/voc_superpixels_edge_wt_only_coord.zip?dl=1',
-        'edge_wt_coord_feat': 'https://www.dropbox.com/s/2a53nmfp6llqg8y/voc_superpixels_edge_wt_coord_feat.zip?dl=1',
-        'edge_wt_region_boundary': 'https://www.dropbox.com/s/6pfz2mccfbkj7r3/voc_superpixels_edge_wt_region_boundary.zip?dl=1'
+            'edge_wt_only_coord': 'https://www.dropbox.com/s/rk6pfnuh7tq3t37/voc_superpixels_edge_wt_only_coord.zip?dl=1',
+            'edge_wt_coord_feat': 'https://www.dropbox.com/s/2a53nmfp6llqg8y/voc_superpixels_edge_wt_coord_feat.zip?dl=1',
+            'edge_wt_region_boundary': 'https://www.dropbox.com/s/6pfz2mccfbkj7r3/voc_superpixels_edge_wt_region_boundary.zip?dl=1'
         },
         30: {
-        'edge_wt_only_coord': 'https://www.dropbox.com/s/toqulkdpb1jrswk/voc_superpixels_edge_wt_only_coord.zip?dl=1',
-        'edge_wt_coord_feat': 'https://www.dropbox.com/s/xywki8ysj63584d/voc_superpixels_edge_wt_coord_feat.zip?dl=1',
-        'edge_wt_region_boundary': 'https://www.dropbox.com/s/8x722ai272wqwl4/voc_superpixels_edge_wt_region_boundary.zip?dl=1'
+            'edge_wt_only_coord': 'https://www.dropbox.com/s/toqulkdpb1jrswk/voc_superpixels_edge_wt_only_coord.zip?dl=1',
+            'edge_wt_coord_feat': 'https://www.dropbox.com/s/xywki8ysj63584d/voc_superpixels_edge_wt_coord_feat.zip?dl=1',
+            'edge_wt_region_boundary': 'https://www.dropbox.com/s/8x722ai272wqwl4/voc_superpixels_edge_wt_region_boundary.zip?dl=1'
         }
     }
 
@@ -93,8 +93,7 @@ class VOCSuperpixels(InMemoryDataset):
         super().__init__(root, transform, pre_transform, pre_filter)
         path = osp.join(self.processed_dir, f'{split}.pt')
         self.data, self.slices = torch.load(path)
-        
-    
+
     @property
     def raw_file_names(self):
         return ['train.pickle', 'val.pickle', 'test.pickle']
@@ -105,14 +104,14 @@ class VOCSuperpixels(InMemoryDataset):
                         'slic_compactness_' + str(self.slic_compactness),
                         self.name,
                         'raw')
-    
+
     @property
     def processed_dir(self):
         return osp.join(self.root,
                         'slic_compactness_' + str(self.slic_compactness),
                         self.name,
                         'processed')
-    
+
     @property
     def processed_file_names(self):
         return ['train.pt', 'val.pt', 'test.pt']
@@ -123,7 +122,7 @@ class VOCSuperpixels(InMemoryDataset):
         extract_zip(path, self.root)
         os.rename(osp.join(self.root, 'voc_superpixels_' + self.name), self.raw_dir)
         os.unlink(path)
-    
+
     def process(self):
         for split in ['train', 'val', 'test']:
             with open(osp.join(self.raw_dir, f'{split}.pickle'), 'rb') as f:
@@ -136,8 +135,8 @@ class VOCSuperpixels(InMemoryDataset):
 
             data_list = []
             for idx in indices:
-                graph = graphs[idx] 
-                
+                graph = graphs[idx]
+
                 """
                 Each `graph` is a tuple (x, edge_attr, edge_index, y)
                     Shape of x : [num_nodes, 14]
@@ -145,7 +144,7 @@ class VOCSuperpixels(InMemoryDataset):
                     Shape of edge_index : [2, num_edges]
                     Shape of y : [num_nodes]
                 """
-                
+
                 x = graph[0].to(torch.float)
                 edge_attr = graph[1].to(torch.float)
                 edge_index = graph[2]

@@ -3,9 +3,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch_geometric.nn as pygnn
+from performer_pytorch import SelfAttention
 from torch_geometric.nn import Linear as Linear_pyg
 from torch_geometric.utils import to_dense_batch
-from performer_pytorch import SelfAttention
 
 
 class GPSwLPELayer(nn.Module):
@@ -45,22 +45,22 @@ class GPSwLPELayer(nn.Module):
             self.local_model = pygnn.GINEConv(gin_nn)
         elif local_gnn_type == 'GAT':
             self.local_model = pygnn.GATConv(in_channels=dim_h,
-                                              out_channels=dim_h // num_heads,
-                                              heads=num_heads,
-                                              edge_dim=dim_h)
+                                             out_channels=dim_h // num_heads,
+                                             heads=num_heads,
+                                             edge_dim=dim_h)
         elif local_gnn_type == 'PNA':
             aggregators = ['mean', 'max', 'sum']
             scalers = ['identity']
             deg = torch.from_numpy(np.array(pna_degrees))
             self.local_model = pygnn.PNAConv(dim_h, dim_h,
-                                              aggregators=aggregators,
-                                              scalers=scalers,
-                                              deg=deg,
-                                              edge_dim=dim_h,
-                                              towers=1,
-                                              pre_layers=1,
-                                              post_layers=1,
-                                              divide_input=False)
+                                             aggregators=aggregators,
+                                             scalers=scalers,
+                                             deg=deg,
+                                             edge_dim=dim_h,
+                                             towers=1,
+                                             pre_layers=1,
+                                             post_layers=1,
+                                             divide_input=False)
         else:
             raise ValueError(f"Unsupported local GNN model: {local_gnn_type}")
         self.local_gnn_type = local_gnn_type
@@ -111,7 +111,6 @@ class GPSwLPELayer(nn.Module):
             self.layer_norm_pe = nn.LayerNorm(self.dim_pe)
         if self.batch_norm:
             self.batch_norm_pe = nn.BatchNorm1d(self.dim_pe)
-
 
     def forward(self, batch):
         h = batch.x
@@ -183,7 +182,7 @@ class GPSwLPELayer(nn.Module):
         return batch
 
     # self-attention block
-    def _sa_block(self, x, attn_mask, key_padding_mask) :
+    def _sa_block(self, x, attn_mask, key_padding_mask):
         x = self.self_attn(x, x, x,
                            attn_mask=attn_mask,
                            key_padding_mask=key_padding_mask,

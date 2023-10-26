@@ -1,7 +1,7 @@
 import operator as op
+import warnings
 from copy import deepcopy
 from typing import Union, Callable, Optional, Dict, Any
-import warnings
 
 import torch
 from torchmetrics.functional import (
@@ -24,12 +24,12 @@ EPS = 1e-5
 
 class Thresholder:
     def __init__(
-        self,
-        threshold: float,
-        operator: str = "greater",
-        th_on_preds: bool = True,
-        th_on_target: bool = False,
-        target_to_int: bool = False,
+            self,
+            threshold: float,
+            operator: str = "greater",
+            th_on_preds: bool = True,
+            th_on_target: bool = False,
+            target_to_int: bool = False,
     ):
 
         # Basic params
@@ -125,7 +125,6 @@ def pearsonr(preds: torch.Tensor, target: torch.Tensor,
 
 
 def _get_rank(values):
-
     arange = torch.arange(values.shape[0],
                           dtype=values.dtype, device=values.device)
 
@@ -200,11 +199,11 @@ class MetricWrapper:
     """
 
     def __init__(
-        self,
-        metric: Union[str, Callable],
-        threshold_kwargs: Optional[Dict[str, Any]] = None,
-        target_nan_mask: Optional[Union[str, int]] = None,
-        **kwargs,
+            self,
+            metric: Union[str, Callable],
+            threshold_kwargs: Optional[Dict[str, Any]] = None,
+            target_nan_mask: Optional[Union[str, int]] = None,
+            **kwargs,
     ):
         r"""
         Parameters

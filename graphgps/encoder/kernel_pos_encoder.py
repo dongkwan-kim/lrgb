@@ -1,5 +1,3 @@
-import logging
-
 import torch
 import torch.nn as nn
 from torch_geometric.graphgym.config import cfg
@@ -108,6 +106,7 @@ class RWSENodeEncoder(KernelPENodeEncoder):
     """
     kernel_type = 'RWSE'
 
+
 register_node_encoder('RWSE', RWSENodeEncoder)
 
 
@@ -116,6 +115,7 @@ class HKdiagSENodeEncoder(KernelPENodeEncoder):
     """
     kernel_type = 'HKdiagSE'
 
+
 register_node_encoder('HKdiagSE', HKdiagSENodeEncoder)
 
 
@@ -123,5 +123,6 @@ class ElstaticSENodeEncoder(KernelPENodeEncoder):
     """Electrostatic interactions Structural Encoding node encoder.
     """
     kernel_type = 'ElstaticSE'
+
 
 register_node_encoder('ElstaticSE', ElstaticSENodeEncoder)

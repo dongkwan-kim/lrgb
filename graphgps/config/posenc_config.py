@@ -45,11 +45,10 @@ def set_cfg_posenc(cfg):
         # a separate variable in the PyG graph batch object.
         pecfg.pass_as_var = False
 
-    
     # Config for EquivStable LapPE
     cfg.posenc_EquivStableLapPE.enable = False
     cfg.posenc_EquivStableLapPE.raw_norm_type = 'none'
-    
+
     # Config for Laplacian Eigen-decomposition for PEs that use it.
     for name in ['posenc_LapPE', 'posenc_SignNet', 'posenc_EquivStableLapPE']:
         pecfg = getattr(cfg, name)
@@ -67,7 +66,6 @@ def set_cfg_posenc(cfg):
     # Config for SignNet-specific options.
     cfg.posenc_SignNet.phi_out_dim = 4
     cfg.posenc_SignNet.phi_hidden_dim = 64
-
 
     for name in ['posenc_RWSE', 'posenc_HKdiagSE', 'posenc_ElstaticSE']:
         pecfg = getattr(cfg, name)

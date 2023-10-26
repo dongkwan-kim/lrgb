@@ -1,18 +1,16 @@
+import logging
+import time
+
 import numpy as np
 import torch
-import time
-import logging
-
-from torch_geometric.graphgym.config import cfg
-from torch_geometric.graphgym.loss import compute_loss
-from torch_geometric.graphgym.utils.epoch import is_eval_epoch, is_ckpt_epoch
-from torch_geometric.graphgym.checkpoint import load_ckpt, save_ckpt, \
-    clean_ckpt
-
-from torch_geometric.graphgym.register import register_train
-
 from graphgps.loss.subtoken_prediction_loss import subtoken_cross_entropy
 from graphgps.utils import cfg_to_dict, flatten_dict, make_wandb_name
+from torch_geometric.graphgym.checkpoint import load_ckpt, save_ckpt, \
+    clean_ckpt
+from torch_geometric.graphgym.config import cfg
+from torch_geometric.graphgym.loss import compute_loss
+from torch_geometric.graphgym.register import register_train
+from torch_geometric.graphgym.utils.epoch import is_eval_epoch, is_ckpt_epoch
 
 
 def train_epoch(logger, loader, model, optimizer, scheduler, batch_accumulation):
@@ -201,5 +199,6 @@ def custom_train(loggers, loaders, model, optimizer, scheduler):
         run = None
 
     logging.info('Task done, results saved in {}'.format(cfg.run_dir))
+
 
 register_train('custom', custom_train)

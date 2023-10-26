@@ -2,10 +2,9 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from graphgps.utils import negate_edge_index
 from torch_geometric.utils.num_nodes import maybe_num_nodes
 from torch_scatter import scatter, scatter_max, scatter_add
-
-from graphgps.utils import negate_edge_index
 
 
 def pyg_softmax(src, index, num_nodes=None):
@@ -106,7 +105,6 @@ class MultiHeadAttention2Layer(nn.Module):
             msg_2 = batch.V_h[fake_edge_index[0]] * score_2
             # Add messages along fake edges to destination nodes
             scatter(msg_2, fake_edge_index[1], dim=0, out=batch.wV, reduce='add')
-
 
     def forward(self, batch):
         Q_h = self.Q(batch.x)

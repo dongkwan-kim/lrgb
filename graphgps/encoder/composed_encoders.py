@@ -1,18 +1,17 @@
 import torch
-from torch_geometric.graphgym.config import cfg
-from torch_geometric.graphgym.models.encoder import AtomEncoder
-from torch_geometric.graphgym.register import register_node_encoder
-
 from graphgps.encoder.ast_encoder import ASTNodeEncoder
+from graphgps.encoder.equivstable_laplace_pos_encoder import EquivStableLapPENodeEncoder
 from graphgps.encoder.kernel_pos_encoder import RWSENodeEncoder, \
     HKdiagSENodeEncoder, ElstaticSENodeEncoder
 from graphgps.encoder.laplace_pos_encoder import LapPENodeEncoder
+from graphgps.encoder.linear_node_encoder import LinearNodeEncoder
 from graphgps.encoder.ppa_encoder import PPANodeEncoder
 from graphgps.encoder.signnet_pos_encoder import SignNetNodeEncoder
-from graphgps.encoder.voc_superpixels_encoder import VOCNodeEncoder
 from graphgps.encoder.type_dict_encoder import TypeDictNodeEncoder
-from graphgps.encoder.linear_node_encoder import LinearNodeEncoder
-from graphgps.encoder.equivstable_laplace_pos_encoder import EquivStableLapPENodeEncoder
+from graphgps.encoder.voc_superpixels_encoder import VOCNodeEncoder
+from torch_geometric.graphgym.config import cfg
+from torch_geometric.graphgym.models.encoder import AtomEncoder
+from torch_geometric.graphgym.register import register_node_encoder
 
 
 def concat_node_encoders(encoder_classes, pe_enc_names):
@@ -40,14 +39,14 @@ def concat_node_encoders(encoder_classes, pe_enc_names):
 
         def __init__(self, dim_emb):
             super().__init__()
-            
-            if cfg.posenc_EquivStableLapPE.enable: # Special handling for Equiv_Stable LapPE where node feats and PE are not concat
+
+            if cfg.posenc_EquivStableLapPE.enable:  # Special handling for Equiv_Stable LapPE where node feats and PE are not concat
                 self.encoder1 = self.enc1_cls(dim_emb)
                 self.encoder2 = self.enc2_cls(dim_emb)
             else:
                 # PE dims can only be gathered once the cfg is loaded.
                 enc2_dim_pe = getattr(cfg, f"posenc_{self.enc2_name}").dim_pe
-            
+
                 self.encoder1 = self.enc1_cls(dim_emb - enc2_dim_pe)
                 self.encoder2 = self.enc2_cls(dim_emb, expand_x=False)
 

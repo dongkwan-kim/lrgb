@@ -27,4 +27,5 @@ def weighted_cross_entropy(pred, true):
                                                       weight=weight[true])
             return loss, torch.sigmoid(pred)
 
+
 register_loss('weighted_cross_entropy', weighted_cross_entropy)

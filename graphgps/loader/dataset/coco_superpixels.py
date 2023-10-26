@@ -1,12 +1,12 @@
 import os
 import os.path as osp
-import shutil
 import pickle
+import shutil
 
 import torch
-from tqdm import tqdm
 from torch_geometric.data import (InMemoryDataset, Data, download_url,
                                   extract_zip)
+from tqdm import tqdm
 
 
 class COCOSuperpixels(InMemoryDataset):
@@ -65,17 +65,17 @@ class COCOSuperpixels(InMemoryDataset):
             value, indicating whether the data object should be included in the
             final dataset. (default: :obj:`None`)
     """
-    
+
     url = {
         10: {
-        'edge_wt_only_coord': 'https://www.dropbox.com/s/prqizdep8gk0ndk/coco_superpixels_edge_wt_only_coord.zip?dl=1',
-        'edge_wt_coord_feat': 'https://www.dropbox.com/s/zftoyln1pkcshcg/coco_superpixels_edge_wt_coord_feat.zip?dl=1',
-        'edge_wt_region_boundary': 'https://www.dropbox.com/s/fhihfcyx2y978u8/coco_superpixels_edge_wt_region_boundary.zip?dl=1'
+            'edge_wt_only_coord': 'https://www.dropbox.com/s/prqizdep8gk0ndk/coco_superpixels_edge_wt_only_coord.zip?dl=1',
+            'edge_wt_coord_feat': 'https://www.dropbox.com/s/zftoyln1pkcshcg/coco_superpixels_edge_wt_coord_feat.zip?dl=1',
+            'edge_wt_region_boundary': 'https://www.dropbox.com/s/fhihfcyx2y978u8/coco_superpixels_edge_wt_region_boundary.zip?dl=1'
         },
         30: {
-        'edge_wt_only_coord': 'https://www.dropbox.com/s/hrbfkxmc5z9lsaz/coco_superpixels_edge_wt_only_coord.zip?dl=1',
-        'edge_wt_coord_feat': 'https://www.dropbox.com/s/4rfa2d5ij1gfu9b/coco_superpixels_edge_wt_coord_feat.zip?dl=1',
-        'edge_wt_region_boundary': 'https://www.dropbox.com/s/r6ihg1f4pmyjjy0/coco_superpixels_edge_wt_region_boundary.zip?dl=1'
+            'edge_wt_only_coord': 'https://www.dropbox.com/s/hrbfkxmc5z9lsaz/coco_superpixels_edge_wt_only_coord.zip?dl=1',
+            'edge_wt_coord_feat': 'https://www.dropbox.com/s/4rfa2d5ij1gfu9b/coco_superpixels_edge_wt_coord_feat.zip?dl=1',
+            'edge_wt_region_boundary': 'https://www.dropbox.com/s/r6ihg1f4pmyjjy0/coco_superpixels_edge_wt_region_boundary.zip?dl=1'
         }
     }
 
@@ -89,8 +89,7 @@ class COCOSuperpixels(InMemoryDataset):
         super().__init__(root, transform, pre_transform, pre_filter)
         path = osp.join(self.processed_dir, f'{split}.pt')
         self.data, self.slices = torch.load(path)
-        
-    
+
     @property
     def raw_file_names(self):
         return ['train.pickle', 'val.pickle', 'test.pickle']
@@ -101,14 +100,14 @@ class COCOSuperpixels(InMemoryDataset):
                         'slic_compactness_' + str(self.slic_compactness),
                         self.name,
                         'raw')
-    
+
     @property
     def processed_dir(self):
         return osp.join(self.root,
                         'slic_compactness_' + str(self.slic_compactness),
                         self.name,
                         'processed')
-    
+
     @property
     def processed_file_names(self):
         return ['train.pt', 'val.pt', 'test.pt']
@@ -119,30 +118,30 @@ class COCOSuperpixels(InMemoryDataset):
         extract_zip(path, self.root)
         os.rename(osp.join(self.root, 'coco_superpixels_' + self.name), self.raw_dir)
         os.unlink(path)
-        
+
     def label_remap(self):
         # Util function to remap the labels as the original label idxs are not contiguous
-        
-        original_label_ix = [ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 
+
+        original_label_ix = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
                              11, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
                              23, 24, 25, 27, 28, 31, 32, 33, 34, 35, 36,
                              37, 38, 39, 40, 41, 42, 43, 44, 46, 47, 48,
-                             49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 
+                             49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
                              60, 61, 62, 63, 64, 65, 67, 70, 72, 73, 74,
                              75, 76, 77, 78, 79, 80, 81, 82, 84, 85, 86,
                              87, 88, 89, 90]
         label_map = {}
         for i, key in enumerate(original_label_ix):
             label_map[key] = i
-        
+
         return label_map
-        
+
     def process(self):
         label_map = self.label_remap()
         for split in ['train', 'val', 'test']:
             with open(osp.join(self.raw_dir, f'{split}.pickle'), 'rb') as f:
                 graphs = pickle.load(f)
-            
+
             indices = range(len(graphs))
 
             pbar = tqdm(total=len(indices))
@@ -150,8 +149,8 @@ class COCOSuperpixels(InMemoryDataset):
 
             data_list = []
             for idx in indices:
-                graph = graphs[idx] 
-                
+                graph = graphs[idx]
+
                 """
                 Each `graph` is a tuple (x, edge_attr, edge_index, y)
                     Shape of x : [num_nodes, 14]
@@ -159,12 +158,12 @@ class COCOSuperpixels(InMemoryDataset):
                     Shape of edge_index : [2, num_edges]
                     Shape of y : [num_nodes]
                 """
-                
+
                 x = graph[0].to(torch.float)
                 edge_attr = graph[1].to(torch.float)
                 edge_index = graph[2]
                 y = torch.LongTensor(graph[3])
-                
+
                 # Label remapping. See self.label_remap() func
                 for i, label in enumerate(y):
                     y[i] = label_map[label.item()]

@@ -5,6 +5,7 @@ import shutil
 import numpy as np
 import pandas as pd
 import torch
+from graphgps.utils import negate_edge_index
 from joblib import Parallel, delayed
 from ogb.utils.features import atom_to_feature_vector, bond_to_feature_vector
 from ogb.utils.torch_util import replace_numpy_with_torchtensor
@@ -15,8 +16,6 @@ from torch_geometric.data import InMemoryDataset
 from torch_geometric.graphgym.models.transform import create_link_label
 from torch_geometric.utils import to_undirected, negative_sampling
 from tqdm import tqdm
-
-from graphgps.utils import negate_edge_index
 
 
 def cxsmiles_to_mol_with_contact(cxsmiles):

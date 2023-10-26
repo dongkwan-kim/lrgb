@@ -1,14 +1,14 @@
 import torch
 import torch_geometric.graphgym.models.head  # noqa, register module
 import torch_geometric.graphgym.register as register
+from graphgps.layer.gatedgcn_layer import GatedGCNLayer
+from graphgps.layer.gcnii_conv_layer import GCN2ConvLayer
+from graphgps.layer.gine_conv_layer import GINEConvLayer
+from graphgps.layer.mlp_layer import MLPLayer
 from torch_geometric.graphgym.config import cfg
 from torch_geometric.graphgym.models.gnn import FeatureEncoder, GNNPreMP
 from torch_geometric.graphgym.register import register_network
 
-from graphgps.layer.gatedgcn_layer import GatedGCNLayer
-from graphgps.layer.gine_conv_layer import GINEConvLayer
-from graphgps.layer.gcnii_conv_layer import GCN2ConvLayer
-from graphgps.layer.mlp_layer import MLPLayer
 
 class CustomGNN(torch.nn.Module):
     """
@@ -57,7 +57,7 @@ class CustomGNN(torch.nn.Module):
     def forward(self, batch):
         for module in self.children():
             if self.model_type == 'gcniiconv':
-                batch.x0 = batch.x # gcniiconv needs x0 for each layer
+                batch.x0 = batch.x  # gcniiconv needs x0 for each layer
                 batch = module(batch)
             else:
                 batch = module(batch)
