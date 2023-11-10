@@ -16,7 +16,6 @@ from graphgps.transform.transforms import (pre_transform_in_memory,
                                            typecast_x, concat_x_and_pos,
                                            clip_graphs_to_size)
 from numpy.random import default_rng
-from ogb.graphproppred import PygGraphPropPredDataset
 from torch_geometric.datasets import (GNNBenchmarkDataset, Planetoid, TUDataset,
                                       WikipediaNetwork, ZINC)
 from torch_geometric.graphgym.config import cfg
@@ -309,6 +308,7 @@ def preformat_OGB_Graph(dataset_dir, name):
     Returns:
         PyG dataset object
     """
+    from ogb.graphproppred import PygGraphPropPredDataset
     dataset = PygGraphPropPredDataset(name=name, root=dataset_dir)
     s_dict = dataset.get_idx_split()
     dataset.split_idxs = [s_dict[s] for s in ['train', 'valid', 'test']]

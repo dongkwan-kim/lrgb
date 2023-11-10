@@ -11,7 +11,7 @@ from torch_geometric.graphgym.config import (cfg, dump_cfg,
 from torch_geometric.graphgym.loader import create_loader
 from torch_geometric.graphgym.logger import set_printing
 from torch_geometric.graphgym.model_builder import create_model
-from torch_geometric.graphgym.optimizer import create_optimizer, \
+from torch_geometric.graphgym.optim import create_optimizer, \
     create_scheduler, OptimizerConfig, SchedulerConfig
 from torch_geometric.graphgym.register import train_dict
 from torch_geometric.graphgym.train import train
@@ -108,6 +108,7 @@ if __name__ == '__main__':
     args = parse_args()
     # Load config file
     set_cfg(cfg)
+    cfg.train.mode = None
     load_cfg(cfg, args)
     custom_set_out_dir(cfg, args.cfg_file, cfg.name_tag)
     dump_cfg(cfg)
